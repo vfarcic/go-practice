@@ -1,53 +1,34 @@
 <html>
 <head>
+    <!--TODO: Use paper-draw to display/hide rooms-->
+    <!--TODO: Add offline support-->
     <title>Chat</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <style>
         input { display: block }
         ul { list-style: none }
     </style>
-    <link rel="import" href="http://localhost:8080/components/whoami.html">
+    <link rel="import" href="../bower_components/paper-styles/classes/global.html">
+    <link rel="import" href="../bower_components/polymer/polymer.html">
+    <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="../bower_components/iron-image/iron-image.html">
+    <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+    <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+    <link rel="import" href="../bower_components/paper-button/paper-button.html">
+    <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+    <link rel="import" href="../bower_components/paper-input/paper-input.html">
+    <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+    <link rel="import" href="http://localhost:8080/components/oauth/whoami.html">
+    <link rel="import" href="../components/submit-chat.html">
+    <link rel="import" href="../components/display-chat.html">
 </head>
 <body>
+    <!--TODO: Add paper-scroll-header-panel or paper-toolbar-->
     <who-am-i backend-host="http://localhost:8080" />
-    <ul id="messages"></ul>
-    <form id="chatbox">
-        <textarea></textarea>
-        <input type="submit" value="Send">
-    </form>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script>
-        $(function() {
-            var socket = null;
-            var msgBox = $("#chatbox textarea");
-            var messages = $("#messages");
-            $("#chatbox").submit(function() {
-                if (!msgBox.val()) return false;
-                if (!socket) {
-                    alert("Error: There is no socket connection.");
-                    return false;
-                }
-                socket.send(JSON.stringify({"message": msgBox.val()}));
-                msgBox.val("");
-                return false;
-            });
-            if (!window["WebSocket"]) {
-                alert("Error: Your browser does not support web sockets.");
-            } else {
-                socket = new WebSocket("ws://{{.Host}}/room");
-                socket.onclose = function() {
-                    alert("Connection has been closed.");
-                };
-                socket.onmessage = function(e) {
-                    var msg = eval("(" + e.data + ")");
-                    messages.append($("<li>").append(
-                            $("<img>").css({width: "25px", verticalAlign: "middle"}).attr("src", msg.AvatarURL),
-                            $("<strong>").text(msg.Name + " at " + msg.When + ": "),
-                            $("<span>").text(msg.Message)
-                        )
-                    );
-                };
-            }
-        });
-    </script>
+    <!--TODO: Add paper-menu-->
+    <display-chat></display-chat>
+    <submit-chat></submit-chat>
 </body>
 </html>

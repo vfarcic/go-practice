@@ -1,0 +1,29 @@
+<dom-module id="display-chat">
+    <template>
+        <template is="dom-repeat" items="{{messages}}">
+            <!--TODO: Add date header-->
+            <!--TODO: Wrap inside paper-material-->
+            <div><iron-icon src="{{item.AvatarURL}}"></iron-icon> <strong><span>{{item.Name}}</span> at <span>{{item.When}}</span>:</strong> <span>{{item.Message}}</span></div>
+        </template>
+    </template>
+</dom-module>
+<script>
+    Polymer({
+        is: "display-chat",
+        ready: function() {
+            var p = this;
+            // TODO: Load from DB
+            this.messages = [];
+            var socket = null;
+            if (window["WebSocket"]) {
+                // TODO: Change to param
+                socket = new WebSocket("ws://localhost:8081/room");
+                socket.onmessage = function(e) {
+                    var msg = eval("(" + e.data + ")");
+                    p.push('messages', msg);
+                    console.log(msg);
+                };
+            }
+        }
+    });
+</script>

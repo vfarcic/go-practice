@@ -1,0 +1,42 @@
+<dom-module id="submit-chat">
+    <template>
+        <!--TODO: Uncomment and use when WebSockets are not supported-->
+        <!--<paper-toast id="notif" text="Your browser does not support web sockets."></paper-toast>-->
+        <!--TODO: Set focus on load-->
+        <paper-input id="input" on-keypress="keyPressHandler" label="Your message"></paper-input>
+        <!--TODO: Disable when input is empty-->
+        <paper-fab id="submit" on-tap="submitChat" icon="arrow-forward" mini></paper-fab>
+    </template>
+</dom-module>
+<script>
+    // TODO: Start change to Polymer
+    var socket = null;
+    if (!window["WebSocket"]) {
+        alert("Error: Your browser does not support web sockets.");
+    } else {
+        // TODO: Change to param
+        socket = new WebSocket("ws://localhost:8081/room");
+        socket.onclose = function() {
+            // TODO: Change to Polymer paper-dialog
+            alert("Connection has been closed.");
+        };
+    }
+    // TODO: End change to Polymer
+    Polymer({
+        is: "submit-chat",
+        ready: function() {
+//            TODO: Uncomment and use when WebSockets are not supported
+//            this.$.notif.show();
+        },
+        submitChat: function() {
+            socket.send(JSON.stringify({"message": this.$.input.value}));
+            this.$.input.value = "";
+            // TODO: Clear input value
+        },
+        keyPressHandler: function(event) {
+            if (event.charCode == 13) {
+                this.$.submit.click();
+            }
+        },
+    });
+</script>
