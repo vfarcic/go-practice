@@ -1,9 +1,18 @@
 <dom-module id="display-chat">
     <template>
         <template is="dom-repeat" items="{{messages}}">
-            <!--TODO: Add date header-->
-            <!--TODO: Wrap inside paper-material-->
-            <div><iron-icon src="{{item.AvatarURL}}"></iron-icon> <strong><span>{{item.Name}}</span> at <span>{{item.When}}</span>:</strong> <span>{{item.Message}}</span></div>
+            <template is="dom-if" if="{{item.displayDate}}" style="margin-bottom: 20px;">
+                <paper-material elevation="3" animated>
+                    <span><strong>{{item.Date}}</strong></span>
+                </paper-material>
+                <br />
+            </template>
+            <paper-material elevation="1" animated>
+                <iron-icon src="{{item.AvatarURL}}"></iron-icon>
+                <span>{{item.Name}}</span> at <span>{{item.Time}}</span>:
+                <br />
+                <span>{{item.Message}}</span>
+            </paper-material>
         </template>
     </template>
 </dom-module>
@@ -20,8 +29,16 @@
                 socket = new WebSocket("ws://localhost:8081/room");
                 socket.onmessage = function(e) {
                     var msg = eval("(" + e.data + ")");
+                    var messagesSize = p.messages.length;
+                    var displayDate = true;
+                    if (messagesSize > 0) {
+                        var prevMessage = p.messages[messagesSize - 1];
+                        if (prevMessage.Date === msg.Date) {
+                            displayDate = false;
+                        }
+                    }
+                    msg.displayDate = displayDate;
                     p.push('messages', msg);
-                    console.log(msg);
                 };
             }
         }

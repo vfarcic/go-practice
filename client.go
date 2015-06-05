@@ -18,7 +18,8 @@ func (c *client) read() {
 		var msg *message
 		log.Println(c.userData)
 		if err := c.socket.ReadJSON(&msg); err == nil {
-			msg.When = time.Now().Format("15:04")
+			msg.Date = time.Now().Format("Monday, 02-Jan-06")
+			msg.Time = time.Now().Format("15:04")
 			msg.Name = c.userData["name"].(string)
 			if avatarURL, ok := c.userData["avatarURL"]; ok {
 				msg.AvatarURL = avatarURL.(string)

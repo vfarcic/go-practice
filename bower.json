@@ -18,6 +18,7 @@
     "paper-input": "PolymerElements/paper-input#^1.0.0",
     "paper-dialog": "PolymerElements/paper-dialog#^1.0.0",
     "paper-fab": "PolymerElements/paper-fab#^1.0.0",
-    "paper-toast": "PolymerElements/paper-toast#^1.0.0"
+    "paper-toast": "PolymerElements/paper-toast#^1.0.0",
+    "paper-material": "PolymerElements/paper-material#^1.0.0"
   }
 }
