@@ -15,7 +15,7 @@ type authHandler struct {
 }
 
 func (h *authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if cookie, err := r.Cookie("auth"); err == http.ErrNoCookie || len(cookie.Value) == 0 {
+	if cookie, err := r.Cookie("authID"); err == http.ErrNoCookie || len(cookie.Value) == 0 {
 		w.Header().Set("Location", "/login")
 		w.WriteHeader(http.StatusTemporaryRedirect)
 	} else if err != nil {
@@ -44,7 +44,6 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		var user User
-		log.Println(body)
 		json.Unmarshal([]byte(body), &user)
 		authCookieValue := objx.New(map[string]interface {}{
 			"name": user.Name,

@@ -21,13 +21,13 @@
     <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
     <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
     <link rel="import" href="../bower_components/paper-material/paper-material.html">
-    <link rel="import" href="http://localhost:8080/components/oauth/whoami.html">
-    <link rel="import" href="../components/submit-chat.html">
-    <link rel="import" href="../components/display-chat.html">
+    <link rel="import" href="http://localhost:8081/components/oauth/whoami.html">
+    <link rel="import" href="http://localhost:8082/components/chat/submit-chat.html">
+    <link rel="import" href="http://localhost:8082/components/chat/display-chat.html">
 </head>
 <body>
     <!--TODO: Add paper-scroll-header-panel or paper-toolbar-->
-    <who-am-i backend-host="http://localhost:8080" />
+    <who-am-i />
     <!--TODO: Add paper-menu-->
     <display-chat></display-chat>
     <submit-chat></submit-chat>
